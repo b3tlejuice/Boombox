@@ -1,14 +1,16 @@
 import sys
 import os
+
+os.environ["QT_QPA_PLATFORM"] = "windows:darkmode=1"
+
 from PyQt6.QtWidgets import QApplication
 from src.ui.main_window import MainWindow
 
-# Ensure src is in python path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 def main():
     app = QApplication(sys.argv)
-    app.setApplicationName("MediaFlow")
+    app.setApplicationName("Boombox")
 
     window = MainWindow()
     window.show()

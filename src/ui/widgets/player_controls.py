@@ -1,5 +1,17 @@
 from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QSlider
-from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtCore import Qt, pyqtSignal, QEvent
+
+class ClickableLabel(QLabel):
+    clicked = pyqtSignal()
+
+    def __init__(self, text="", parent=None):
+        super().__init__(text, parent)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.clicked.emit()
+        super().mouseReleaseEvent(event)
 
 class PlayerControls(QWidget):
     play_clicked = pyqtSignal()
@@ -8,6 +20,7 @@ class PlayerControls(QWidget):
     prev_clicked = pyqtSignal()
     volume_changed = pyqtSignal(int)
     seek_position = pyqtSignal(int)
+    title_clicked = pyqtSignal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -20,21 +33,34 @@ class PlayerControls(QWidget):
         main_layout.setContentsMargins(20, 10, 20, 10)
         self.setLayout(main_layout)
 
-        # 1. Left: Track Info
+        left_layout = QHBoxLayout()
+        left_layout.setSpacing(15)
+
+        self.cover_art_lbl = QLabel()
+        self.cover_art_lbl.setObjectName("cover_art")
+        self.cover_art_lbl.setFixedSize(60, 60)
+        self.cover_art_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        left_layout.addWidget(self.cover_art_lbl)
+
         info_layout = QVBoxLayout()
-        self.track_title = QLabel("No Song Playing")
+        info_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+
+        self.track_title = ClickableLabel("No Song Playing")
         self.track_title.setObjectName("song_title")
+        self.track_title.clicked.connect(self.title_clicked)
+
         self.track_artist = QLabel("")
         self.track_artist.setObjectName("artist_name")
+
         info_layout.addWidget(self.track_title)
         info_layout.addWidget(self.track_artist)
 
-        main_layout.addLayout(info_layout, 1)
+        left_layout.addLayout(info_layout, 1)
 
-        # 2. Center: Controls
+        main_layout.addLayout(left_layout, 1)
+
         controls_container = QVBoxLayout()
 
-        # Buttons
         buttons_layout = QHBoxLayout()
         buttons_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -55,7 +81,6 @@ class PlayerControls(QWidget):
         buttons_layout.addWidget(self.play_btn)
         buttons_layout.addWidget(self.next_btn)
 
-        # Progress Bar
         progress_layout = QHBoxLayout()
         self.current_time_lbl = QLabel("0:00")
         self.total_time_lbl = QLabel("0:00")
@@ -73,7 +98,6 @@ class PlayerControls(QWidget):
 
         main_layout.addLayout(controls_container, 2)
 
-        # 3. Right: Volume
         volume_layout = QHBoxLayout()
         volume_layout.setAlignment(Qt.AlignmentFlag.AlignRight)
 
@@ -103,9 +127,15 @@ class PlayerControls(QWidget):
         self.is_playing = playing
         self.play_btn.setText("⏸" if playing else "▶")
 
-    def update_track_info(self, title, artist):
+    def update_track_info(self, title, artist, cover_pixmap=None):
         self.track_title.setText(title)
         self.track_artist.setText(artist)
+
+        if cover_pixmap:
+            self.cover_art_lbl.setPixmap(cover_pixmap.scaled(60, 60, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+        else:
+            self.cover_art_lbl.clear()
+            self.cover_art_lbl.setText("🎵")
 
     def update_progress(self, position):
         self.progress_slider.setValue(position)

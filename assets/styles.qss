@@ -7,7 +7,67 @@ QMainWindow {
 QWidget {
     font-family: "Segoe UI", sans-serif;
     font-size: 14px;
-    color: #B3B3B3;
+    color: #FFFFFF;
+}
+
+QDialog, QMessageBox, QInputDialog {
+    background-color: #282828;
+    color: #FFFFFF;
+}
+
+QLineEdit {
+    background-color: #3E3E3E;
+    color: #FFFFFF;
+    border: 1px solid #555555;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+/* Standard Buttons (in dialogs) */
+QPushButton {
+    background-color: #404040;
+    color: #FFFFFF;
+    border: 1px solid #555555;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+QPushButton:hover {
+    background-color: #505050;
+}
+
+QPushButton:pressed {
+    background-color: #303030;
+}
+
+/* Menus */
+QMenuBar {
+    background-color: #181818;
+    color: #FFFFFF;
+    border-bottom: 1px solid #282828;
+}
+
+QMenuBar::item {
+    background-color: transparent;
+    padding: 8px 12px;
+}
+
+QMenuBar::item:selected {
+    background-color: #282828;
+}
+
+QMenu {
+    background-color: #282828;
+    color: #FFFFFF;
+    border: 1px solid #3E3E3E;
+}
+
+QMenu::item {
+    padding: 6px 24px 6px 12px;
+}
+
+QMenu::item:selected {
+    background-color: #3E3E3E;
 }
 
 /* Sidebar */
@@ -19,7 +79,7 @@ QWidget#sidebar {
 
 QPushButton.sidebar-btn {
     background-color: transparent;
-    color: #B3B3B3;
+    color: #FFFFFF;
     text-align: left;
     padding: 10px 15px;
     border: none;
@@ -31,6 +91,29 @@ QPushButton.sidebar-btn:hover {
 }
 
 QPushButton.sidebar-btn:checked {
+    color: #FFFFFF;
+    background-color: #282828;
+}
+
+QListWidget#playlist_list {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+}
+
+QListWidget#playlist_list::item {
+    color: #B3B3B3;
+    padding: 8px 15px;
+    background-color: transparent;
+}
+
+QListWidget#playlist_list::item:hover {
+    color: #FFFFFF;
+    background-color: transparent; /* Or subtle hover effect */
+}
+
+QListWidget#playlist_list::item:selected {
     color: #FFFFFF;
     background-color: #282828;
 }
@@ -71,11 +154,18 @@ QLabel#song_title {
     color: #FFFFFF;
     font-size: 14px;
     font-weight: bold;
+    padding-bottom: 2px;
 }
 
 QLabel#artist_name {
-    color: #B3B3B3;
-    font-size: 12px;
+    color: #E0E0E0;
+    font-size: 11px;
+}
+
+QLabel#cover_art {
+    background-color: #282828;
+    border-radius: 4px;
+    font-size: 24px;
 }
 
 /* Sliders */
@@ -109,7 +199,6 @@ QPushButton.control-btn {
 }
 
 QPushButton.control-btn:hover {
-    transform: scale(1.1); /* Qt doesn't support css transform easily, but keeps syntax valid */
     background-color: #282828;
 }
 

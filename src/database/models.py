@@ -1,9 +1,9 @@
-from sqlalchemy import Column, Integer, String, Enum, Table, ForeignKey
+from sqlalchemy import Column, Integer, String, Enum, Table, ForeignKey, DateTime
 from sqlalchemy.orm import relationship, declarative_base
+from datetime import datetime
 
 Base = declarative_base()
 
-# Association table for Playlist <-> Media (Many-to-Many)
 playlist_media_association = Table(
     'playlist_media', Base.metadata,
     Column('playlist_id', Integer, ForeignKey('playlists.id')),
@@ -16,10 +16,12 @@ class Media(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
     file_path = Column(String, nullable=False, unique=True)
-    media_type = Column(String)  # 'audio', 'video', 'photo'
+    media_type = Column(String)
     artist = Column(String, nullable=True)
     album = Column(String, nullable=True)
-    duration = Column(Integer, default=0) # In seconds
+    duration = Column(Integer, default=0)
+    custom_cover_path = Column(String, nullable=True)
+    date_added = Column(DateTime, default=datetime.now)
 
     def __repr__(self):
         return f"<Media(title='{self.title}', type='{self.media_type}')>"

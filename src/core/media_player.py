@@ -2,7 +2,6 @@ from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput
 from PyQt6.QtCore import QUrl, pyqtSignal, QObject
 
 class MediaPlayer(QObject):
-    # Signals to update UI
     position_changed = pyqtSignal(int)
     duration_changed = pyqtSignal(int)
     media_status_changed = pyqtSignal(QMediaPlayer.MediaStatus)
@@ -14,7 +13,6 @@ class MediaPlayer(QObject):
         self._audio_output = QAudioOutput()
         self._player.setAudioOutput(self._audio_output)
 
-        # Connect internal signals
         self._player.positionChanged.connect(self._on_position_changed)
         self._player.durationChanged.connect(self._on_duration_changed)
         self._player.mediaStatusChanged.connect(self.media_status_changed)
@@ -30,11 +28,9 @@ class MediaPlayer(QObject):
         self._audio_output.setVolume(self._current_volume / 100)
 
     def set_video_output(self, video_widget):
-        """Sets the widget where video will be rendered."""
         self._player.setVideoOutput(video_widget)
 
     def load_media(self, file_path):
-        """Loads media from a local file path."""
         url = QUrl.fromLocalFile(file_path)
         self._player.setSource(url)
 
@@ -51,7 +47,6 @@ class MediaPlayer(QObject):
         self._player.setPosition(position)
 
     def set_volume(self, volume):
-        """Volume 0-100"""
         self._current_volume = volume
         self._audio_output.setVolume(volume / 100)
 
