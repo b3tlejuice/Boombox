@@ -1,0 +1,120 @@
+/* Global Styles */
+QMainWindow {
+    background-color: #121212;
+    color: #FFFFFF;
+}
+
+QWidget {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: #B3B3B3;
+}
+
+/* Sidebar */
+QWidget#sidebar {
+    background-color: #000000;
+    min-width: 200px;
+    max-width: 250px;
+}
+
+QPushButton.sidebar-btn {
+    background-color: transparent;
+    color: #B3B3B3;
+    text-align: left;
+    padding: 10px 15px;
+    border: none;
+    font-weight: bold;
+}
+
+QPushButton.sidebar-btn:hover {
+    color: #FFFFFF;
+}
+
+QPushButton.sidebar-btn:checked {
+    color: #FFFFFF;
+    background-color: #282828;
+}
+
+/* Main Content */
+QWidget#content_area {
+    background-color: #121212; /* Dark gradient usually, but solid for now */
+}
+
+QListWidget {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+QListWidget::item {
+    padding: 10px;
+    border-radius: 4px;
+}
+
+QListWidget::item:hover {
+    background-color: #2A2A2A;
+}
+
+QListWidget::item:selected {
+    background-color: #5A5A5A;
+    color: white;
+}
+
+/* Player Controls */
+QWidget#player_controls {
+    background-color: #181818;
+    border-top: 1px solid #282828;
+    min-height: 90px;
+}
+
+QLabel#song_title {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QLabel#artist_name {
+    color: #B3B3B3;
+    font-size: 12px;
+}
+
+/* Sliders */
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 4px;
+    background: #535353;
+    margin: 2px 0;
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: #FFFFFF;
+    border: 1px solid #5c5c5c;
+    width: 12px;
+    height: 12px;
+    margin: -4px 0;
+    border-radius: 6px;
+}
+
+QSlider::sub-page:horizontal {
+    background: #1DB954; /* Spotify Green */
+    border-radius: 2px;
+}
+
+/* Player Buttons */
+QPushButton.control-btn {
+    background-color: transparent;
+    border: none;
+    border-radius: 16px;
+}
+
+QPushButton.control-btn:hover {
+    transform: scale(1.1); /* Qt doesn't support css transform easily, but keeps syntax valid */
+    background-color: #282828;
+}
+
+QPushButton#play_btn {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    color: #000000;
+}
