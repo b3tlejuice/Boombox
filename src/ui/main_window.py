@@ -9,6 +9,7 @@ from .widgets.player_controls import PlayerControls
 from PyQt6.QtWidgets import QInputDialog
 from .widgets.media_list import MediaList
 from .widgets.edit_dialog import MediaEditDialog
+from .widgets.equalizer_window import EqualizerWindow
 from ..core.media_player import MediaPlayer
 from ..core.metadata import extract_metadata
 from ..database.db_manager import db_manager
@@ -26,6 +27,7 @@ class MainWindow(QMainWindow):
         self.session = db_manager.get_session()
 
         self.player = MediaPlayer()
+        self.equalizer_window = EqualizerWindow(self.player, self)
 
         self.setup_ui()
         self.connect_signals()
@@ -140,6 +142,10 @@ class MainWindow(QMainWindow):
         sort_artist = QAction("Artist (A-Z)", self)
         sort_artist.triggered.connect(lambda: self.change_sort("artist_asc"))
         sort_menu.addAction(sort_artist)
+
+        equalizer_action = QAction("Equalizer", self)
+        equalizer_action.triggered.connect(self.equalizer_window.show)
+        menubar.addAction(equalizer_action)
 
     def connect_signals(self):
         self.sidebar.library_btn.clicked.connect(self.refresh_library)

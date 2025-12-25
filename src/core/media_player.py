@@ -19,6 +19,7 @@ class MediaPlayer(QObject):
         self._player.playbackStateChanged.connect(self.state_changed)
 
         self._current_volume = 70
+        self._muted = False
 
     def _on_position_changed(self, position):
         self.position_changed.emit(position)
@@ -48,10 +49,22 @@ class MediaPlayer(QObject):
 
     def set_volume(self, volume):
         self._current_volume = volume
-        self._audio_output.setVolume(volume / 100)
+        if not self._muted:
+            self._audio_output.setVolume(volume / 100)
+
+    def set_muted(self, muted):
+        self._muted = muted
+        if muted:
+            self._audio_output.setVolume(0)
+        else:
+            self._audio_output.setVolume(self._current_volume / 100)
 
     def get_state(self):
         return self._player.playbackState()
 
     def is_playing(self):
         return self._player.playbackState() == QMediaPlayer.PlaybackState.PlayingState
+
+    def set_audio_buffer_output(self, output):
+        if hasattr(self._player, "setAudioBufferOutput"):
+            self._player.setAudioBufferOutput(output)
